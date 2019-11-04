@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Default Description">
+        <Application name="Nyoka" version="3.1.0"/>
+        <Timestamp>2019-06-04 21:20:07.246258</Timestamp>
+    </Header>
+    <MiningBuildTask>
+        <Extension value="Pipeline(memory=None,
+    steps=[('regressor',RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+                      max_features='auto', max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=1, min_samples_split=2,
+                      min_weight_fraction_leaf=0.0, n_estimators=10,
+                      n_jobs=None, oob_score=False, random_state=None,
+                      verbose=0, warm_start=False))])"/>
+    </MiningBuildTask>
+    <DataDictionary numberOfFields="4">
+        <DataField name="age" optype="continuous" dataType="double"/>
+        <DataField name="holder_index" optype="continuous" dataType="double"/>
+        <DataField name="incidents" optype="continuous" dataType="double"/>
+        <DataField name="holder_risk" optype="continuous" dataType="double"/>
+    </DataDictionary>
+    <MiningModel modelName="RandomForestRegressor" functionName="regression">
+        <MiningSchema>
+            <MiningField name="age" usageType="active" optype="continuous"/>
+            <MiningField name="holder_index" usageType="active" optype="continuous"/>
+            <MiningField name="incidents" usageType="active" optype="continuous"/>
+            <MiningField name="holder_risk" usageType="target" optype="continuous"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="predicted_holder_risk" optype="continuous" dataType="double" feature="predictedValue"/>
+        </Output>
+        <Segmentation multipleModelMethod="average" missingThreshold="1">
+            <Segment id="0" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3774.0">
+                        <True/>
+                        <Node id="1" recordCount="3248.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="860.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="128.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="732.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2388.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="334.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="118.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="216.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2054.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="526.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="414.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="130.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="64.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="66.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="284.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" recordCount="137.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="17" score="3.0000000000000000" recordCount="65.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                        </Node>
+                                        <Node id="18" score="2.0000000000000000" recordCount="72.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="147.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="112.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="1" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3789.0">
+                        <True/>
+                        <Node id="1" recordCount="3290.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="855.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="115.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="740.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2435.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="350.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="121.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="229.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2085.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="499.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="371.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="243.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    <Node id="13" recordCount="116.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="14" score="4.0000000000000000" recordCount="55.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                        </Node>
+                                        <Node id="15" score="3.0000000000000000" recordCount="61.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="16" score="3.0000000000000000" recordCount="127.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="17" recordCount="128.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    <Node id="18" score="2.0000000000000000" recordCount="65.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="63.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="128.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="2" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3805.0">
+                        <True/>
+                        <Node id="1" recordCount="3273.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="831.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="118.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="713.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2442.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="358.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="125.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="233.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2084.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="532.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="394.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="146.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="79.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="67.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="248.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" score="3.0000000000000000" recordCount="127.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="17" recordCount="121.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        <Node id="18" score="2.0000000000000000" recordCount="60.0">
+                                            <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        </Node>
+                                        <Node id="19" score="3.0000000000000000" recordCount="61.0">
+                                            <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="138.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="3" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3759.0">
+                        <True/>
+                        <Node id="1" recordCount="3269.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="848.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="120.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="728.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2421.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="346.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="116.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="230.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2075.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="490.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="367.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="248.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    <Node id="13" recordCount="122.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                        <Node id="14" score="4.0000000000000000" recordCount="58.0">
+                                            <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        </Node>
+                                        <Node id="15" score="3.0000000000000000" recordCount="64.0">
+                                            <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="16" score="3.0000000000000000" recordCount="126.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="17" recordCount="119.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    <Node id="18" score="2.0000000000000000" recordCount="65.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="54.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="123.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="4" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3803.0">
+                        <True/>
+                        <Node id="1" recordCount="3293.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="850.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="127.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="723.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2443.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="346.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="113.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="233.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2097.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="510.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="394.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="132.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="65.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="67.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="262.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" score="3.0000000000000000" recordCount="132.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="17" recordCount="130.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        <Node id="18" score="2.0000000000000000" recordCount="65.0">
+                                            <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        </Node>
+                                        <Node id="19" score="3.0000000000000000" recordCount="65.0">
+                                            <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="116.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="5" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3788.0">
+                        <True/>
+                        <Node id="1" recordCount="3270.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="838.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="121.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="717.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2432.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="367.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="112.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="255.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2065.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="518.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="405.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="268.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    <Node id="13" recordCount="129.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="14" score="4.0000000000000000" recordCount="60.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                        </Node>
+                                        <Node id="15" score="3.0000000000000000" recordCount="69.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="16" score="3.0000000000000000" recordCount="139.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="17" recordCount="137.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    <Node id="18" score="2.0000000000000000" recordCount="66.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="71.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="113.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="6" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3797.0">
+                        <True/>
+                        <Node id="1" recordCount="3266.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="836.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="122.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="714.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2430.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="343.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="105.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="238.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2087.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="531.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="410.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="145.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="67.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="78.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="265.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" recordCount="131.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="17" score="3.0000000000000000" recordCount="67.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                        </Node>
+                                        <Node id="18" score="2.0000000000000000" recordCount="64.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="134.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="121.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="7" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3791.0">
+                        <True/>
+                        <Node id="1" recordCount="3303.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="845.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="120.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="725.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2458.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="368.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="121.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="247.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2090.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="488.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="380.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="132.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="68.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="64.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="248.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" recordCount="120.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="17" score="3.0000000000000000" recordCount="57.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                        </Node>
+                                        <Node id="18" score="2.0000000000000000" recordCount="63.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="128.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="108.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="8" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3792.0">
+                        <True/>
+                        <Node id="1" recordCount="3277.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="827.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="123.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="704.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2450.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="364.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="118.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="246.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2086.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="515.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="408.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="272.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    <Node id="13" recordCount="126.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="14" score="4.0000000000000000" recordCount="63.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                        </Node>
+                                        <Node id="15" score="3.0000000000000000" recordCount="63.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="16" score="3.0000000000000000" recordCount="146.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="17" recordCount="136.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    <Node id="18" score="2.0000000000000000" recordCount="67.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="69.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="107.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="9" weight="1">
+                <True/>
+                <TreeModel modelName="DecisionTreeRegressor" functionName="regression" missingValuePenalty="1.0">
+                    <MiningSchema>
+                        <MiningField name="age" usageType="active"/>
+                        <MiningField name="holder_index" usageType="active"/>
+                        <MiningField name="incidents" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="0" recordCount="3796.0">
+                        <True/>
+                        <Node id="1" recordCount="3265.0">
+                            <SimplePredicate field="incidents" operator="lessOrEqual" value="2.5000000000000000"/>
+                            <Node id="2" recordCount="862.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                <Node id="3" score="2.0000000000000000" recordCount="120.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                </Node>
+                                <Node id="4" score="1.0000000000000000" recordCount="742.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                            <Node id="5" recordCount="2403.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                <Node id="6" recordCount="347.0">
+                                    <SimplePredicate field="age" operator="lessOrEqual" value="25.5000000000000000"/>
+                                    <Node id="7" score="1.0000000000000000" recordCount="113.0">
+                                        <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                    </Node>
+                                    <Node id="8" score="0.0000000000000000" recordCount="234.0">
+                                        <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="9" score="0.0000000000000000" recordCount="2056.0">
+                                    <SimplePredicate field="age" operator="greaterThan" value="25.5000000000000000"/>
+                                </Node>
+                            </Node>
+                        </Node>
+                        <Node id="10" recordCount="531.0">
+                            <SimplePredicate field="incidents" operator="greaterThan" value="2.5000000000000000"/>
+                            <Node id="11" recordCount="414.0">
+                                <SimplePredicate field="holder_index" operator="lessOrEqual" value="2.5000000000000000"/>
+                                <Node id="12" recordCount="139.0">
+                                    <SimplePredicate field="holder_index" operator="lessOrEqual" value="0.5000000000000000"/>
+                                    <Node id="13" score="4.0000000000000000" recordCount="63.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                    </Node>
+                                    <Node id="14" score="3.0000000000000000" recordCount="76.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                                <Node id="15" recordCount="275.0">
+                                    <SimplePredicate field="holder_index" operator="greaterThan" value="0.5000000000000000"/>
+                                    <Node id="16" recordCount="129.0">
+                                        <SimplePredicate field="incidents" operator="lessOrEqual" value="3.5000000000000000"/>
+                                        <Node id="17" score="3.0000000000000000" recordCount="59.0">
+                                            <SimplePredicate field="holder_index" operator="lessOrEqual" value="1.5000000000000000"/>
+                                        </Node>
+                                        <Node id="18" score="2.0000000000000000" recordCount="70.0">
+                                            <SimplePredicate field="holder_index" operator="greaterThan" value="1.5000000000000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node id="19" score="3.0000000000000000" recordCount="146.0">
+                                        <SimplePredicate field="incidents" operator="greaterThan" value="3.5000000000000000"/>
+                                    </Node>
+                                </Node>
+                            </Node>
+                            <Node id="20" score="1.0000000000000000" recordCount="117.0">
+                                <SimplePredicate field="holder_index" operator="greaterThan" value="2.5000000000000000"/>
+                            </Node>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+        </Segmentation>
+    </MiningModel>
+</PMML>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Default Description">
+        <Application name="Nyoka" version="3.1.0"/>
+        <Timestamp>2019-06-04 21:20:07.179388</Timestamp>
+    </Header>
+    <MiningBuildTask>
+        <Extension value="Pipeline(memory=None,
+    steps=[('regressor',LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False))])"/>
+    </MiningBuildTask>
+    <DataDictionary numberOfFields="3">
+        <DataField name="amount" optype="continuous" dataType="double"/>
+        <DataField name="holder_index" optype="continuous" dataType="double"/>
+        <DataField name="dispute_risk" optype="continuous" dataType="double"/>
+    </DataDictionary>
+    <RegressionModel modelName="LinearRegression" functionName="regression">
+        <MiningSchema>
+            <MiningField name="amount" usageType="active" optype="continuous"/>
+            <MiningField name="holder_index" usageType="active" optype="continuous"/>
+            <MiningField name="dispute_risk" usageType="target" optype="continuous"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="predicted_dispute_risk" optype="continuous" dataType="double" feature="predictedValue"/>
+        </Output>
+        <RegressionTable intercept="0.7967757851094457">
+            <NumericPredictor name="amount" exponent="1" coefficient="0.0164722015102424"/>
+            <NumericPredictor name="holder_index" exponent="1" coefficient="-0.3846549459800382"/>
+        </RegressionTable>
+    </RegressionModel>
+</PMML>
